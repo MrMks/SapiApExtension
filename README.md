@@ -3,9 +3,9 @@
 This project is aimed to add some components for SkillAPI to use AttributePlus.
  
 ## Component
- * [Took AP Damage](#Took%20AP%20Damage)
- * [Took Entity Damage](#Took%20Entity%20Damage)
- * [Value AttributePlus](#Value%20AttributePlus)
+ * [Took AP Damage](#took-ap-damage)
+ * [Took Entity Damage](#took-entity-damage)
+ * [Value AttributePlus](#value-attributeplus)
 
 ## Details
 Notice: Chinese only
@@ -35,8 +35,8 @@ Notice: Chinese only
 AttributePlus 的伤害处理执行在 Bukkit 事件线的 [HIGHEST][1] 等级上，而 SkillAPI 的 Trigger 对事件的监听建立在 [HIGH][2] 等级上，因此，无法在同一个事件上完成先被 AttributePlus 处理，后被 SkillAPI 监听。  
 该组件通过外部监听器监听 Bukkit 中的 [EntityDamagedByEntityEvent][3]，包装该事件形成 BridgeDamageEntityEvent 后由 Trigger 监听 BridgeDamageEntityEvent 实现对 AttributePlus 伤害的操作。
 
-* 参数列表：同 [ApDamageListener](#Took%20AP%20Damage)
-* 记录值：同 [ApDamageListener](#Took%20AP%20Damage)
+* 参数列表：同 [ApDamageListener](#took-ap-damage)
+* 记录值：同 [ApDamageListener](#took-ap-damage)
 
 特殊的，这个组件并不依赖AttributePlus的任何代码，尽管如此，这个组件仍被列在这里，是因为这个组件是为了实现监听 AttributePlus 中全部伤害（包括真实伤害）而设计的。在 AttributePlus 做出相关更改前可以使用此组件来近似实现。
 
