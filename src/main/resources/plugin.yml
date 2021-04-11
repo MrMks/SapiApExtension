@@ -1,0 +1,4 @@
+name: SapiApExtension
+main: com.github.mrmks.mc.sapi_ap.Main
+version: ${version}
+depend: [SkillAPI,AttributePlus]
