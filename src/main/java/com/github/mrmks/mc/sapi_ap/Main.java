@@ -1,7 +1,10 @@
 package com.github.mrmks.mc.sapi_ap;
 
 import com.github.mrmks.mc.sapi_ap.bridge.BridgeListener;
+import com.github.mrmks.mc.sapi_ap.compound.mechanic.AppendAttributePlus;
+import com.github.mrmks.mc.sapi_ap.compound.mechanic.RemoveAttributePlus;
 import com.github.mrmks.mc.sapi_ap.compound.mechanic.ValueAttributePlus;
+import com.github.mrmks.mc.sapi_ap.trigger.EntityTookAPDamageTrigger;
 import com.github.mrmks.mc.sapi_ap.trigger.EntityTookEntityDamageTrigger;
 import com.google.common.collect.ImmutableList;
 import com.sucy.skill.SkillAPI;
@@ -37,7 +40,9 @@ public class Main extends JavaPlugin implements SkillPlugin {
         return ImmutableList.of(
                 //new ValueCompareCondition(),
                 //new ManualTriggerMechanic(),
-                new ValueAttributePlus()
+                new ValueAttributePlus(),
+                new AppendAttributePlus(),
+                new RemoveAttributePlus()
                 //new ValueSumMechanic()
         );
     }
@@ -46,7 +51,7 @@ public class Main extends JavaPlugin implements SkillPlugin {
     @Override
     public List<Trigger> getTriggers() {
         List<Trigger> list = new ArrayList<>(ImmutableList.of(
-                new EntityTookEntityDamageTrigger(),
+                new EntityTookAPDamageTrigger(),
                 new EntityTookEntityDamageTrigger()
         ));
         list.removeIf(t -> ComponentRegistry.getTrigger(t.getKey()) != null);

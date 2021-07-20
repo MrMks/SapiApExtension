@@ -10,6 +10,11 @@ import org.bukkit.event.entity.EntityDamageEvent;
 
 public class BridgeListener implements Listener {
 
+    /**
+     * The Listener of AttributePlus is set up on HIGHEST priority, And this plugin is depend on AttributePlus,
+     * So when the bukkit event system registering the listeners in handleList, this listener will appears after AP's listener.
+     * In this way, we can know how many damage will be dealt to the entity
+     */
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onDamaged(EntityDamageEvent event) {
         if (event instanceof EntityDamageByEntityEvent) {

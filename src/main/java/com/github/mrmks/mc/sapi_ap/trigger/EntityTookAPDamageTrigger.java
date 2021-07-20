@@ -5,14 +5,13 @@ import com.sucy.skill.api.Settings;
 import com.sucy.skill.dynamic.ComponentType;
 import com.sucy.skill.dynamic.custom.CustomTrigger;
 import com.sucy.skill.dynamic.custom.EditorOption;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
-import org.serverct.ersha.jd.event.AttrEntityDamageEvent;
+import org.serverct.ersha.api.event.AttrEntityAttackEvent;
 
 import java.util.List;
 import java.util.Map;
 
-public class EntityTookAPDamageTrigger implements CustomTrigger<AttrEntityDamageEvent> {
+public class EntityTookAPDamageTrigger implements CustomTrigger<AttrEntityAttackEvent> {
     @Override
     public String getKey() {
         return "TOOK_AP_DAMAGE";
@@ -67,37 +66,34 @@ public class EntityTookAPDamageTrigger implements CustomTrigger<AttrEntityDamage
     }
 
     @Override
-    public Class<AttrEntityDamageEvent> getEvent() {
-        return AttrEntityDamageEvent.class;
+    public Class<AttrEntityAttackEvent> getEvent() {
+        return AttrEntityAttackEvent.class;
     }
 
     @Override
-    public boolean shouldTrigger(AttrEntityDamageEvent event, int i, Settings settings) {
+    public boolean shouldTrigger(AttrEntityAttackEvent event, int i, Settings settings) {
         double min = settings.getDouble("dmg-min", 0);
         double max = settings.getDouble("dmg-max", 999);
         boolean lmt_l = settings.getBool("limit-min", true);
         boolean lmt_u = settings.getBool("limit-max", true);
-        double damage = event.getDamage();
+        double damage = event.getAttributeHandle().getDamage(event.getAttackerOrKiller());
 
         return (!lmt_l || damage >= min) && (!lmt_u || damage <= max);
     }
 
     @Override
-    public void setValues(AttrEntityDamageEvent event, Map<String, Object> map) {
-        map.put("api-dealt", event.getDamage());
+    public void setValues(AttrEntityAttackEvent event, Map<String, Object> map) {
+        map.put("api-dealt", event.getAttributeHandle().getDamage(event.getAttackerOrKiller()));
     }
 
     @Override
-    public LivingEntity getCaster(AttrEntityDamageEvent event) {
-        Entity entity = event.getEntity();
-        if (entity instanceof LivingEntity) return (LivingEntity) entity;
-        else return null;
+    public LivingEntity getCaster(AttrEntityAttackEvent event) {
+        return event.getEntity();
     }
 
     @Override
-    public LivingEntity getTarget(AttrEntityDamageEvent event, Settings settings) {
+    public LivingEntity getTarget(AttrEntityAttackEvent event, Settings settings) {
         boolean isUsingTarget = settings.getString("target", "true").equalsIgnoreCase("false");
-        Entity entity = isUsingTarget ? event.getDamager() : event.getEntity();
-        return entity instanceof LivingEntity ? (LivingEntity) entity : null;
+        return isUsingTarget ? event.getAttackerOrKiller() : event.getEntity();
     }
 }
