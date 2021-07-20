@@ -1,5 +1,6 @@
 package com.github.mrmks.mc.sapi_ap.compound.mechanic;
 
+import com.github.mrmks.mc.sapi_ap.EditorOptionHelper;
 import com.github.mrmks.mc.sapi_ap.compound.CustomMechanic;
 import com.google.common.collect.ImmutableList;
 import com.sucy.skill.dynamic.DynamicSkill;
@@ -38,10 +39,10 @@ public class ValueAttributePlus extends CustomMechanic {
     @Override
     public List<EditorOption> getOptions() {
         return ImmutableList.of(
-                EditorOption.text(ATTR_KEY, "AttrKey", "[" + ATTR_KEY + "]The name of the attribute used in AttributePlus, please DO NOT append with \\\"[0]\\\" or \\\"[1]\\\"", ""),
-                EditorOption.dropdown(MIN_MAX, "Min_Max", "["+MIN_MAX+"]Select min or max value will be stored", ImmutableList.of("min", "max")),
-                EditorOption.dropdown(RANDOM, "Random", "["+RANDOM+"]Generate a random value between min and max? Option Min_Max will be ignored if set this to true", ImmutableList.of("false", "true")),
-                EditorOption.text(KEY, "Key", "["+KEY+"]The unique key to store the value under", "key")
+                EditorOptionHelper.text(ATTR_KEY, "The name of the attribute used in AttributePlus, please DO NOT append with \\\"[0]\\\" or \\\"[1]\\\"", ""),
+                EditorOptionHelper.dropdown(MIN_MAX, "Min_Max", "Select min or max value will be stored", ImmutableList.of("min", "max")),
+                EditorOptionHelper.dropdown(RANDOM, "Generate a random value between min and max? Option Min_Max will be ignored if set this to true", ImmutableList.of("false", "true")),
+                EditorOptionHelper.text(KEY, "The unique key to store the value under", "key")
         );
     }
 

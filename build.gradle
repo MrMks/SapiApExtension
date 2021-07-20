@@ -3,7 +3,7 @@ plugins {
 }
 
 group 'com.github.mrmks.mc'
-version '0.1.8-build8'
+version '0.1.9-build9'
 
 repositories {
     mavenCentral()
@@ -16,7 +16,6 @@ dependencies {
     compileOnly 'org.bukkit:bukkit:1.12.2-R0.1-SNAPSHOT'
     compileOnly files(
             '../libs/[2.3.7]AttributePlus.jar',
-            '../libs/[1.1.0]AttributeExtension.jar',
             '../libs/SkillAPI-1.9-premium.jar',
             '../libs/MCCore-1.67.jar'
     )
