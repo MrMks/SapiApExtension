@@ -3,10 +3,12 @@ package com.github.mrmks.mc.sapi_ap.trigger;
 import com.google.common.collect.ImmutableList;
 import com.sucy.skill.api.Settings;
 import com.sucy.skill.dynamic.ComponentType;
+import com.sucy.skill.dynamic.DynamicSkill;
 import com.sucy.skill.dynamic.custom.CustomTrigger;
 import com.sucy.skill.dynamic.custom.EditorOption;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
+import org.bukkit.event.Cancellable;
 import org.serverct.ersha.jd.event.AttrEntityDamageEvent;
 
 import java.util.List;
@@ -99,5 +101,10 @@ public class EntityTookAPDamageTrigger implements CustomTrigger<AttrEntityDamage
         boolean isUsingTarget = settings.getString("target", "true").equalsIgnoreCase("false");
         Entity entity = isUsingTarget ? event.getDamager() : event.getEntity();
         return entity instanceof LivingEntity ? (LivingEntity) entity : null;
+    }
+
+    @Override
+    public void postProcess(AttrEntityDamageEvent event, DynamicSkill skill) {
+        if (skill.checkCancelled()) event.setCancelled(true);
     }
 }
