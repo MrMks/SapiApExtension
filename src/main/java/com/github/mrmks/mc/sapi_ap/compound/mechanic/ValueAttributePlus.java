@@ -1,13 +1,12 @@
 package com.github.mrmks.mc.sapi_ap.compound.mechanic;
 
 import com.github.mrmks.mc.sapi_ap.EditorOptionHelper;
+import com.github.mrmks.mc.sapi_ap.Hooks;
 import com.github.mrmks.mc.sapi_ap.compound.CustomMechanic;
 import com.google.common.collect.ImmutableList;
 import com.sucy.skill.dynamic.DynamicSkill;
 import com.sucy.skill.dynamic.custom.EditorOption;
 import org.bukkit.entity.LivingEntity;
-import org.serverct.ersha.api.AttributeAPI;
-import org.serverct.ersha.attribute.data.AttributeData;
 
 import java.util.HashMap;
 import java.util.List;
@@ -52,7 +51,6 @@ public class ValueAttributePlus extends CustomMechanic {
         if (livingEntity == null || list.size() == 0) return false;
 
         LivingEntity entity = list.get(0);
-        AttributeData data = AttributeAPI.getAttrData(entity);
         String attrKey = settings.getString(ATTR_KEY);
         boolean random = settings.getBool(RANDOM, false);
         boolean minMax = settings.getString(MIN_MAX).equalsIgnoreCase("min");
@@ -63,22 +61,16 @@ public class ValueAttributePlus extends CustomMechanic {
         if (attrKey == null || map == null) return false;
 
         double res;
-        Number[] doubles = data.getAttributeValue(attrKey);
-        if (doubles.length >= 2) {
-            double min = doubles[0].doubleValue();
-            double max = doubles[1].doubleValue();
-            if (max == min) res = min;
-            else {
-                if (random) res = Rand.nextDouble() * (max - min) + min;
-                else {
-                    boolean tmp = min < max;
-                    res = minMax ? (tmp ? min : max) : (tmp ? max : min);
-                }
-            }
+        double[] vs = Hooks.getAttribute(entity, attrKey);
+        if (vs[0] == vs[1]) {
+            res = vs[0];
         } else {
-            res = doubles.length == 1 ? doubles[0].doubleValue() : 0d;
+            if (random) res = Rand.nextDouble() * (vs[1] - vs[0]) + vs[0];
+            else {
+                boolean t = vs[0] < vs[1];
+                res = minMax ? (t ? vs[0] : vs[1]) : (t ? vs[1] : vs[0]);
+            }
         }
-
         map.put(key, res);
 
         return true;
