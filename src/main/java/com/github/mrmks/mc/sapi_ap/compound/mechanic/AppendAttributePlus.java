@@ -6,8 +6,6 @@ import com.github.mrmks.mc.sapi_ap.compound.CustomMechanic;
 import com.google.common.collect.ImmutableList;
 import com.sucy.skill.dynamic.custom.EditorOption;
 import org.bukkit.entity.LivingEntity;
-import org.serverct.ersha.jd.AttributeAPI;
-import org.serverct.ersha.jd.attribute.AttributeData;
 
 import java.util.List;
 
@@ -50,11 +48,8 @@ public class AppendAttributePlus extends CustomMechanic {
         double value = parseValues(livingEntity, VALUE, i, 0);
         String src = settings.getString(SOURCE, "skill");
         double timeout = parseValues(livingEntity, TIMEOUT, i, 0);
-        List<String> attrList = ImmutableList.of(attr + ": " + value);
         for(LivingEntity le : list) {
             Hooks.addAttribute(le, src, attr, value);
-            AttributeData data = AttributeAPI.getAttrData(le);
-            data.addApiAttribute(src, attrList, false);
         }
         return true;
     }
