@@ -1,13 +1,12 @@
 package com.github.mrmks.mc.sapi_ap.compound.mechanic;
 
 import com.github.mrmks.mc.sapi_ap.EditorOptionHelper;
+import com.github.mrmks.mc.sapi_ap.Hooks;
 import com.github.mrmks.mc.sapi_ap.compound.CustomMechanic;
 import com.google.common.collect.ImmutableList;
 import com.sucy.skill.dynamic.DynamicSkill;
 import com.sucy.skill.dynamic.custom.EditorOption;
 import org.bukkit.entity.LivingEntity;
-import org.serverct.ersha.jd.AttributeAPI;
-import org.serverct.ersha.jd.attribute.AttributeData;
 
 import java.util.HashMap;
 import java.util.List;
@@ -52,7 +51,6 @@ public class ValueAttributePlus extends CustomMechanic {
         if (livingEntity == null || list.size() == 0) return false;
 
         LivingEntity entity = list.get(0);
-        AttributeData data = AttributeAPI.getAttrData(entity);
         String attrKey = settings.getString(ATTR_KEY);
         boolean random = settings.getBool(RANDOM, false);
         boolean minMax = settings.getString(MIN_MAX).equalsIgnoreCase("min");
@@ -60,25 +58,19 @@ public class ValueAttributePlus extends CustomMechanic {
 
         HashMap<String, Object> map = DynamicSkill.getCastData(livingEntity);
 
-        if (data == null || attrKey == null || map == null) return false;
+        if (attrKey == null || map == null) return false;
 
         double res;
-        if (data.getAttributeValue().containsKey(attrKey) && data.getAttributeValue().containsKey(attrKey+"[1]")) {
-            Number[] doubles = data.getAttributeValues(attrKey);
-            double min = doubles.length > 0 ? doubles[0].doubleValue() : 0;
-            double max = doubles.length > 1 ? doubles[1].doubleValue() : 0;
-            if (max == min) res = min;
-            else {
-                if (random) res = Rand.nextDouble() * (max - min) + min;
-                else {
-                    boolean tmp = min < max;
-                    res = minMax ? (tmp ? min : max) : (tmp ? max : min);
-                }
-            }
+        double[] vs = Hooks.getAttribute(entity, attrKey);
+        if (vs[0] == vs[1]) {
+            res = vs[0];
         } else {
-            res = data.getAttributeValue().containsKey(attrKey) ? data.getAttributeValue(attrKey) : data.getAttributeValue(attrKey+"[1]");
+            if (random) res = Rand.nextDouble() * (vs[1] - vs[0]) + vs[0];
+            else {
+                boolean t = vs[0] < vs[1];
+                res = minMax ? (t ? vs[0] : vs[1]) : (t ? vs[1] : vs[0]);
+            }
         }
-
         map.put(key, res);
 
         return true;
