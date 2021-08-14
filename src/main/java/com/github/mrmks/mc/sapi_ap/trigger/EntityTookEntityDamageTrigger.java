@@ -84,7 +84,7 @@ public class EntityTookEntityDamageTrigger implements CustomTrigger<BridgeDamage
 
     @Override
     public void setValues(BridgeDamageEntityEvent bridgeDamageEvent, Map<String, Object> map) {
-        map.put("api-dealt", bridgeDamageEvent.getEvent().getFinalDamage());
+        map.put("api-taken", bridgeDamageEvent.getEvent().getFinalDamage());
     }
 
     @Override

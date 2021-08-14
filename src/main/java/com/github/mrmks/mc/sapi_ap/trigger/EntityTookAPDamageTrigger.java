@@ -83,7 +83,7 @@ public class EntityTookAPDamageTrigger implements CustomTrigger<AttrEntityAttack
 
     @Override
     public void setValues(AttrEntityAttackEvent event, Map<String, Object> map) {
-        map.put("api-dealt", event.getAttributeHandle().getDamage(event.getAttackerOrKiller()));
+        map.put("api-taken", event.getAttributeHandle().getDamage(event.getAttackerOrKiller()));
     }
 
     @Override
