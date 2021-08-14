@@ -1,5 +1,6 @@
 package com.github.mrmks.mc.sapi_ap.trigger;
 
+import com.github.mrmks.mc.sapi_ap.EditorOptionHelper;
 import com.google.common.collect.ImmutableList;
 import com.sucy.skill.api.Settings;
 import com.sucy.skill.dynamic.ComponentType;
@@ -8,7 +9,6 @@ import com.sucy.skill.dynamic.custom.CustomTrigger;
 import com.sucy.skill.dynamic.custom.EditorOption;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
-import org.bukkit.event.Cancellable;
 import org.serverct.ersha.jd.event.AttrEntityDamageEvent;
 
 import java.util.List;
@@ -38,28 +38,28 @@ public class EntityTookAPDamageTrigger implements CustomTrigger<AttrEntityDamage
     @Override
     public List<EditorOption> getOptions() {
         return ImmutableList.of(
-                EditorOption.dropdown(
+                EditorOptionHelper.dropdown(
                         "target",
                         "Target Caster",
                         "True makes children target the caster. False makes children target the entity.",
                         ImmutableList.of("True", "False")),
-                EditorOption.dropdown(
+                EditorOptionHelper.dropdown(
                         "limit-min",
                         "Limit Min",
-                        "[limit-min] Should restrict the lower limit?",
+                        "Should restrict the lower limit?",
                         ImmutableList.of("True", "False")),
-                EditorOption.number(
+                EditorOptionHelper.number(
                         "dmg-min",
                         "Min Damage",
                         "The minimum damage that needs to be dealt",
                         0,
                         0),
-                EditorOption.dropdown("" +
+                EditorOptionHelper.dropdown("" +
                         "limit-max",
                         "Limit Max",
-                        "[limit-max] Should restrict the upper limit?",
+                        "Should restrict the upper limit?",
                         ImmutableList.of("Ture", "False")),
-                EditorOption.number(
+                EditorOptionHelper.number(
                         "dmg-max",
                         "Max Damage",
                         "The maximum damage that can be dealt",
@@ -86,7 +86,7 @@ public class EntityTookAPDamageTrigger implements CustomTrigger<AttrEntityDamage
 
     @Override
     public void setValues(AttrEntityDamageEvent event, Map<String, Object> map) {
-        map.put("api-dealt", event.getDamage());
+        map.put("api-taken", event.getDamage());
     }
 
     @Override
@@ -105,6 +105,9 @@ public class EntityTookAPDamageTrigger implements CustomTrigger<AttrEntityDamage
 
     @Override
     public void postProcess(AttrEntityDamageEvent event, DynamicSkill skill) {
-        if (skill.checkCancelled()) event.setCancelled(true);
+        if (skill.checkCancelled()) {
+            event.setCancelled(true);
+            skill.cancelTrigger();
+        }
     }
 }

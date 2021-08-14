@@ -1,5 +1,6 @@
 package com.github.mrmks.mc.sapi_ap.trigger;
 
+import com.github.mrmks.mc.sapi_ap.EditorOptionHelper;
 import com.github.mrmks.mc.sapi_ap.bridge.BridgeDamageEntityEvent;
 import com.google.common.collect.ImmutableList;
 import com.sucy.skill.api.Settings;
@@ -36,28 +37,28 @@ public class EntityTookEntityDamageTrigger implements CustomTrigger<BridgeDamage
     @Override
     public List<EditorOption> getOptions() {
         return ImmutableList.of(
-                EditorOption.dropdown(
+                EditorOptionHelper.dropdown(
                         "target",
                         "Target Caster",
                         "True makes children target the caster. False makes children target the entity.",
                         ImmutableList.of("True", "False")),
-                EditorOption.dropdown(
+                EditorOptionHelper.dropdown(
                         "limit-min",
                         "Limit Min",
-                        "[limit-min] Should restrict the lower limit?",
+                        "Should restrict the lower limit?",
                         ImmutableList.of("True", "False")),
-                EditorOption.number(
+                EditorOptionHelper.number(
                         "dmg-min",
                         "Min Damage",
                         "The minimum damage that needs to be dealt",
                         0,
                         0),
-                EditorOption.dropdown(
+                EditorOptionHelper.dropdown(
                         "limit-max",
                         "Limit Max",
-                        "[limit-max] Should restrict the upper limit?",
+                        "Should restrict the upper limit?",
                         ImmutableList.of("Ture", "False")),
-                EditorOption.number(
+                EditorOptionHelper.number(
                         "dmg-max",
                         "Max Damage",
                         "The maximum damage that can be dealt",
@@ -84,7 +85,7 @@ public class EntityTookEntityDamageTrigger implements CustomTrigger<BridgeDamage
 
     @Override
     public void setValues(BridgeDamageEntityEvent bridgeDamageEvent, Map<String, Object> map) {
-        map.put("api-dealt", bridgeDamageEvent.getEvent().getFinalDamage());
+        map.put("api-taken", bridgeDamageEvent.getEvent().getFinalDamage());
     }
 
     @Override
