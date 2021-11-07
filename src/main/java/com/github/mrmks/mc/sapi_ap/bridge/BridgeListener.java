@@ -17,6 +17,7 @@ public class BridgeListener implements Listener {
      */
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onDamaged(EntityDamageEvent event) {
+        if (event.getCause() == EntityDamageEvent.DamageCause.CUSTOM) return;
         if (event instanceof EntityDamageByEntityEvent) {
             call(new BridgeDamageEntityEvent((EntityDamageByEntityEvent) event));
         } else if (event instanceof EntityDamageByBlockEvent) {

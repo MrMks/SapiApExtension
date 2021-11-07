@@ -75,8 +75,8 @@ public class EntityTookAPDamageTrigger implements CustomTrigger<AttrEntityDamage
 
     @Override
     public boolean shouldTrigger(AttrEntityDamageEvent event, int i, Settings settings) {
-        double min = settings.getDouble("dmg-min", 0);
-        double max = settings.getDouble("dmg-max", 999);
+        double min = settings.getAttr("dmg-min", i, 0);
+        double max = settings.getAttr("dmg-max", i, 999);
         boolean lmt_l = settings.getBool("limit-min", true);
         boolean lmt_u = settings.getBool("limit-max", true);
         double damage = event.getDamage();
