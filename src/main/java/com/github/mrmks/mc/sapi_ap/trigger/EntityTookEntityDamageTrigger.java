@@ -57,7 +57,7 @@ public class EntityTookEntityDamageTrigger implements CustomTrigger<BridgeDamage
                         "limit-max",
                         "Limit Max",
                         "Should restrict the upper limit?",
-                        ImmutableList.of("Ture", "False")),
+                        ImmutableList.of("True", "False")),
                 EditorOptionHelper.number(
                         "dmg-max",
                         "Max Damage",

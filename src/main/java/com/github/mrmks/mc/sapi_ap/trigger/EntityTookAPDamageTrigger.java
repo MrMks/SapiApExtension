@@ -54,11 +54,11 @@ public class EntityTookAPDamageTrigger implements CustomTrigger<AttrEntityDamage
                         "The minimum damage that needs to be dealt",
                         0,
                         0),
-                EditorOptionHelper.dropdown("" +
+                EditorOptionHelper.dropdown(
                         "limit-max",
                         "Limit Max",
                         "Should restrict the upper limit?",
-                        ImmutableList.of("Ture", "False")),
+                        ImmutableList.of("True", "False")),
                 EditorOptionHelper.number(
                         "dmg-max",
                         "Max Damage",
